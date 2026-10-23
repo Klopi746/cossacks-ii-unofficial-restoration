@@ -1,0 +1,118 @@
+{
+  "status": "PASS",
+  "setup_sha256": "88e3c1ed014e7b5b1579456eeb49c5782228d5c51f2876e43d7775919c63cbd9",
+  "manifest_as_invoker": true,
+  "payload_entries": [
+    {
+      "name": "dxvk/d3d8.dll",
+      "bytes": 1687566,
+      "sha256": "9152ba43386e756790a66f61cdcee01b3287d156d4161c7456d816faa82fc364"
+    },
+    {
+      "name": "dxvk/d3d9.dll",
+      "bytes": 7856142,
+      "sha256": "265888c31ca78dffa290c39cb7e50bfb02762590e41927906e46fb32f01497fa"
+    },
+    {
+      "name": "dxwnd/Disasm.dll",
+      "bytes": 138752,
+      "sha256": "f413a207787da88281500aaeae07fb98d7d438ecb4d67f8fcdf0aff2f988717f"
+    },
+    {
+      "name": "dxwnd/dxwnd.dll",
+      "bytes": 1765376,
+      "sha256": "73b3f9a9e8ef0c3beb220753320c7f3e28d6e4be8a8459d18da7f2e3a9d09abe"
+    },
+    {
+      "name": "dxwnd/dxwnd.exe",
+      "bytes": 1642496,
+      "sha256": "d8d2f25be8ec746b6df31754a2e6c91b562b6c65ab1475d673fa95bf1b34cb82"
+    },
+    {
+      "name": "dxwnd/MinHook.x86.dll",
+      "bytes": 12800,
+      "sha256": "32667dbd34787133d0cda2cbb1aebc543daef4abf435f346527ed6aa5d47b313"
+    },
+    {
+      "name": "LICENSE",
+      "bytes": 1320,
+      "sha256": "871558085c4b6d1ce6422a5e9c8851de0672f2b838c14c92332b5f3e951a061c"
+    },
+    {
+      "name": "licenses/Detours-MIT.txt",
+      "bytes": 1099,
+      "sha256": "b301808b732cfaa60df2b4b422d78cd97d2a15058b207e7e33f0535ba5170dd6"
+    },
+    {
+      "name": "licenses/drawdib-NOTICE.txt",
+      "bytes": 813,
+      "sha256": "1b808654364af8a6016058e55419e9a62396001553e5f5a135da802a97a7ee23"
+    },
+    {
+      "name": "licenses/DXVK-LICENSE.txt",
+      "bytes": 1074,
+      "sha256": "a5cb1a6ded7d2d7e92d550ba28edd21be2d1d4044662b399887351023e30ce64"
+    },
+    {
+      "name": "licenses/GPL-3.0.txt",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "name": "licenses/LGPL-2.1.txt",
+      "bytes": 26419,
+      "sha256": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95"
+    },
+    {
+      "name": "licenses/mciplayer-NOTICE.txt",
+      "bytes": 1081,
+      "sha256": "63f3d9da2c348c7071d1c9050b418244b6fcedc7caadf77cc00325e4fd27be88"
+    },
+    {
+      "name": "licenses/MinHook-HDE-LICENSE.txt",
+      "bytes": 4365,
+      "sha256": "d5c2224982b0b95a16b098a561335fa93f3eaf4d0aa964b7843edb986df78dc8"
+    },
+    {
+      "name": "licenses/S3TC-MIT.txt",
+      "bytes": 1074,
+      "sha256": "af315c24c009f8cd2fcc679539e7ac7a59dc47389b5922081aa435ce498a67f9"
+    },
+    {
+      "name": "licenses/stb_dxt-NOTICE.txt",
+      "bytes": 1633,
+      "sha256": "f8856af62737a79e9fc37a54cef3caff180a312ded9a8030b66992bba8947f93"
+    },
+    {
+      "name": "licenses/wing32-NOTICE.txt",
+      "bytes": 879,
+      "sha256": "7c2e21cca1eadf7f21a313f4e8e25843c980963b2253f9f009c0a9537def0643"
+    },
+    {
+      "name": "profile-template.ini",
+      "bytes": 778,
+      "sha256": "f1b07705635f19599a674993ccbdbf3c3d6c9b19942b44173b68dddceda0d797"
+    },
+    {
+      "name": "sources/DxWnd-2.06.16-corresponding-source.zip",
+      "bytes": 5266768,
+      "sha256": "7405d45be88010a5c38310352c2ca8f947cdbef2d4205563a0d119701cd811e1"
+    },
+    {
+      "name": "sources/DxWnd-2.06.16-provenance.json",
+      "bytes": 1197,
+      "sha256": "7ff132392acbaa73e233799e44114a9d80130a1ae92a4ff860c05333747d22da"
+    },
+    {
+      "name": "THIRD_PARTY.md",
+      "bytes": 7242,
+      "sha256": "e386161cb40d94bbd129a0f0419595b9aafbcab2d1366e224585af2dbc4f8296"
+    }
+  ],
+  "game_exe_save_dump_in_payload": false,
+  "source_entries": 893,
+  "source_archive_sha256_verified": true,
+  "compiled_objects_in_corresponding_source": false,
+  "runtime_component_hashes_verified": true,
+  "screenshots_in_setup": false
+}

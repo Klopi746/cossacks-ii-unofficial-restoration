@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "assertions": 14,
+  "gameLaunched": false,
+  "scope": "Log recovery, hard-link refusal, create-new report and root containment; synthetic files only",
+  "setupSha256": "88E3C1ED014E7B5B1579456EEB49C5782228D5C51F2876E43D7775919C63CBD9"
+}

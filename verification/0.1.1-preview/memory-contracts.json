@@ -1,0 +1,547 @@
+{
+  "scope": "Selected actual x86 routines emulated with synthetic state and stubbed game services. No game process, OS API, display or save/load execution.",
+  "original_SHA256": "DB52B8A6926C63EF2B7BBF921C01B8F95A4ECD9F2B63BDA18F0EDD18E45F7517",
+  "candidate_SHA256": "EC5B4E1EB1410E66223AD86C5F69B97B2646552A5B2AEDE2B4072111D85C9605",
+  "catalogue": [
+    {
+      "capacity": 64,
+      "officer_definitions": 0,
+      "rows_written": 0,
+      "warning_calls": 0,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 64,
+      "officer_definitions": 64,
+      "rows_written": 64,
+      "warning_calls": 0,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 64,
+      "officer_definitions": 92,
+      "rows_written": 64,
+      "warning_calls": 28,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 64,
+      "officer_definitions": 128,
+      "rows_written": 64,
+      "warning_calls": 64,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 64,
+      "officer_definitions": 129,
+      "rows_written": 64,
+      "warning_calls": 65,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 128,
+      "officer_definitions": 0,
+      "rows_written": 0,
+      "warning_calls": 0,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 128,
+      "officer_definitions": 64,
+      "rows_written": 64,
+      "warning_calls": 0,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 128,
+      "officer_definitions": 92,
+      "rows_written": 92,
+      "warning_calls": 0,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 128,
+      "officer_definitions": 128,
+      "rows_written": 128,
+      "warning_calls": 0,
+      "canaries_intact": true
+    },
+    {
+      "capacity": 128,
+      "officer_definitions": 129,
+      "rows_written": 128,
+      "warning_calls": 1,
+      "canaries_intact": true
+    }
+  ],
+  "ai_original_control": [
+    {
+      "types": 64,
+      "capacity": 64,
+      "centers": 1,
+      "target": [
+        0,
+        63
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          1,
+          763
+        ]
+      ],
+      "support_flag_reads": 0,
+      "allocations": 0,
+      "frees": 0,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 64,
+      "capacity": 64,
+      "centers": 2,
+      "target": [
+        1,
+        63
+      ],
+      "resource": 4000,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          2,
+          763
+        ]
+      ],
+      "support_flag_reads": 3,
+      "allocations": 0,
+      "frees": 0,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 64,
+      "capacity": 64,
+      "centers": 1,
+      "target": [
+        0,
+        63
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 0,
+      "frees": 0,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 64,
+      "capacity": 64,
+      "centers": 1,
+      "target": [
+        0,
+        63
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": false,
+      "allocation_failure": false,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 0,
+      "frees": 0,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    }
+  ],
+  "ai_candidate": [
+    {
+      "types": 64,
+      "capacity": 128,
+      "centers": 1,
+      "target": [
+        0,
+        63
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          1,
+          763
+        ]
+      ],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 64,
+      "capacity": 128,
+      "centers": 2,
+      "target": [
+        1,
+        63
+      ],
+      "resource": 4000,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          2,
+          763
+        ]
+      ],
+      "support_flag_reads": 3,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 64,
+      "capacity": 128,
+      "centers": 1,
+      "target": [
+        0,
+        63
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 64,
+      "capacity": 128,
+      "centers": 1,
+      "target": [
+        0,
+        63
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": false,
+      "allocation_failure": false,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 0,
+      "capacity": 128,
+      "centers": 1,
+      "target": null,
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 92,
+      "capacity": 128,
+      "centers": 1,
+      "target": [
+        0,
+        91
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          1,
+          791
+        ]
+      ],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 128,
+      "capacity": 128,
+      "centers": 1,
+      "target": [
+        0,
+        127
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          1,
+          827
+        ]
+      ],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 92,
+      "capacity": 128,
+      "centers": 16,
+      "target": [
+        15,
+        91
+      ],
+      "resource": 4000,
+      "NI": 7,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          16,
+          791
+        ]
+      ],
+      "support_flag_reads": 3,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 128,
+      "capacity": 128,
+      "centers": 16,
+      "target": [
+        15,
+        127
+      ],
+      "resource": 4000,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 1,
+      "formation_calls": [
+        [
+          16,
+          827
+        ]
+      ],
+      "support_flag_reads": 3,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 92,
+      "capacity": null,
+      "centers": 1,
+      "target": [
+        0,
+        91
+      ],
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": true,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 0,
+      "frees": 0,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    },
+    {
+      "types": 92,
+      "capacity": 128,
+      "centers": 0,
+      "target": null,
+      "resource": 0,
+      "NI": 0,
+      "enabled": true,
+      "allocation_failure": false,
+      "result": 0,
+      "formation_calls": [],
+      "support_flag_reads": 0,
+      "allocations": 1,
+      "frees": 1,
+      "empty_row_GO_reads": 0,
+      "nonvolatile_registers_preserved": true,
+      "stack_balanced": true,
+      "canaries_intact": true
+    }
+  ],
+  "ui_candidate": [
+    {
+      "types": 0,
+      "centers": 1,
+      "target": null,
+      "allocation_sizes": [
+        32,
+        32768,
+        524288,
+        2048,
+        2048,
+        2048
+      ],
+      "allocation_reuse": true,
+      "selected_formations": 0,
+      "empty_row_GO_reads": 0,
+      "canaries_intact": true
+    },
+    {
+      "types": 92,
+      "centers": 1,
+      "target": [
+        0,
+        91
+      ],
+      "allocation_sizes": [
+        32,
+        32768,
+        524288,
+        2048,
+        2048,
+        2048
+      ],
+      "allocation_reuse": true,
+      "selected_formations": 2,
+      "empty_row_GO_reads": 0,
+      "canaries_intact": true
+    },
+    {
+      "types": 128,
+      "centers": 1,
+      "target": [
+        0,
+        127
+      ],
+      "allocation_sizes": [
+        32,
+        32768,
+        524288,
+        2048,
+        2048,
+        2048
+      ],
+      "allocation_reuse": true,
+      "selected_formations": 2,
+      "empty_row_GO_reads": 0,
+      "canaries_intact": true
+    },
+    {
+      "types": 92,
+      "centers": 16,
+      "target": [
+        15,
+        91
+      ],
+      "allocation_sizes": [
+        32,
+        32768,
+        524288,
+        2048,
+        2048,
+        2048
+      ],
+      "allocation_reuse": true,
+      "selected_formations": 2,
+      "empty_row_GO_reads": 0,
+      "canaries_intact": true
+    },
+    {
+      "types": 128,
+      "centers": 16,
+      "target": [
+        15,
+        127
+      ],
+      "allocation_sizes": [
+        32,
+        32768,
+        524288,
+        2048,
+        2048,
+        2048
+      ],
+      "allocation_reuse": true,
+      "selected_formations": 2,
+      "empty_row_GO_reads": 0,
+      "canaries_intact": true
+    }
+  ],
+  "status": "PASS",
+  "duration_seconds": 10.695,
+  "gameplay_status": "NOT TESTED: user will launch manually"
+}

@@ -1,0 +1,9 @@
+{
+  "Version": "0.1.1-preview",
+  "SHA256": "88E3C1ED014E7B5B1579456EEB49C5782228D5C51F2876E43D7775919C63CBD9",
+  "Bytes": 18544128,
+  "Compiler": "Microsoft.Net.Compilers.Toolset 4.8.0",
+  "Deterministic": true,
+  "Bundled": "Own code / recipe / DXVK x86 / DxWnd 2.06.16 / corresponding source / notices",
+  "InstallNetworkRequired": false
+}

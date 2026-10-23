@@ -13,7 +13,7 @@ The script downloads Microsoft.Net.Compilers.Toolset **4.8.0** from official NuG
 Output:
 
 ```text
-artifacts/CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe
+artifacts/CossacksII-Unofficial-Restoration-0.1.1-preview-setup.exe
 artifacts/SHA256SUMS.txt
 artifacts/build-manifest.json
 artifacts/DxWnd-2.06.16-corresponding-source.zip
@@ -32,7 +32,7 @@ These tests need the supported original game folder as a read-only input and a *
 .\tests\Test-Recipe.ps1 -OriginalEngine 'C:\Games\BfE-original\engine.exe' -OutputDirectory 'C:\Tests\BfE-recipe-check'
 ```
 
-Use paths suitable for your computer. Do not publish the work directory, generated patched EXE, local manifests, original files or private logs. Test cases cover installation, identical reinstall, Unicode / spaces, shortcut collision, unsupported inputs, read-only refusal, write failure and rollback, recovery, conflict preservation, backup corruption and user-data retention.
+Use paths suitable for your computer. Do not publish the work directory, generated patched EXE, local manifests, original files or private logs. Test cases cover installation, identical reinstall, Unicode / spaces, shortcut collision, unsupported inputs, read-only refusal, write failure and rollback, recovery, conflict preservation, backup corruption and user-data retention. They also cover removal by the installed maintenance EXE, malformed ownership records, report collisions, junction refusal, denied write permissions and forced termination after journal write intent.
 
 `tests/WizardSmoke.cs` is an optional harness for the actual WinForms Next / consent / Install / completion events. Compile it against the setup assembly and Windows Forms, place a copy of that assembly next to the harness, and pass a fresh reduced test fixture as its argument. The harness itself forbids game launch and disables shortcut creation. `tests/DependencySmoke.cs` verifies the embedded DxWnd objects and corresponding-source availability without starting any native component.
 
@@ -52,7 +52,7 @@ Memory contracts and fixture addresses are locked to the supported hashes. These
 ## Noninteractive maintenance
 
 ```powershell
-Start-Process .\artifacts\CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe -ArgumentList '--silent --install --no-shortcut --game "C:\Games\Battle for Europe" --resolution 2560x1440 --report "C:\Tests\install.json"' -Wait
+Start-Process .\artifacts\CossacksII-Unofficial-Restoration-0.1.1-preview-setup.exe -ArgumentList '--silent --install --no-shortcut --game "C:\Games\Battle for Europe" --resolution 2560x1440 --report "C:\Tests\install.json"' -Wait
 ```
 
-Actions: `--validate`, `--install`, `--uninstall`. `--game` specifies the target; `--resolution WIDTHxHEIGHT` is used for install; `--report` writes the result; `--no-shortcut` suppresses the desktop link. Exit code 0 means success, 1 means an explained refusal/failure. No action defaults to the GUI wizard. `--silent` never starts the game; play/diagnostic requests are refused unless accompanied by `--dry-run`, which validates the launch plan without starting processes or touching the log. `C2_RESTORATION_FORBID_GAME_LAUNCH=1` is an additional test guard. No testing switch bypasses supported-file checks.
+Actions: `--validate`, `--install`, `--uninstall`. `--game` specifies the target; `--resolution WIDTHxHEIGHT` is used for install; `--report` creates a new result file outside the game folder; existing paths are refused; `--no-shortcut` suppresses the desktop link. Exit code 0 means success, 1 means an explained refusal/failure. No action defaults to the GUI wizard. `--silent` never starts the game; play/diagnostic requests are refused unless accompanied by `--dry-run`, which validates the launch plan without starting processes or touching the log. Combining `--dry-run` with install, uninstall or validate is rejected before changes. `C2_RESTORATION_FORBID_GAME_LAUNCH=1` is an additional test guard. No testing switch bypasses supported-file checks.

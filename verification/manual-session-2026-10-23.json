@@ -1,0 +1,34 @@
+{
+  "evidence_kind": "user report, original screenshot and matched local launcher logs",
+  "launcher_version": "0.1.0-preview",
+  "started_utc": "2026-10-23T14:36:38.2035110Z",
+  "diagnostic": true,
+  "configured_resolution": "2560x1440",
+  "patched_engine_sha256": "EC5B4E1EB1410E66223AD86C5F69B97B2646552A5B2AEDE2B4072111D85C9605",
+  "dxvk": "3.1.1",
+  "gpu": "NVIDIA GeForce RTX 4070 Ti",
+  "driver_reported_by_dxvk": "610.88.0",
+  "game_log_bytes": 1425,
+  "game_log_readonly": false,
+  "game_log_observations": {
+    "ordinary_renderer_and_production_entries": true,
+    "barracks_completion": true,
+    "no_ge_MaxOf_or_MaxType_warning_found": true,
+    "other_warnings_present": ["missing textures", "missing brigade-dialog resources", "render state"]
+  },
+  "screenshot": {
+    "path": "docs/images/gameplay-diagnostic-original.png",
+    "sha256": "0274DE158CA9F2F0E733F44557ED6F9D260EA1A54B706A87C6A30650271DF1F3",
+    "visible_fps_approx": 59.7,
+    "publication_authorized": true,
+    "generative_changes": false
+  },
+  "limitations": [
+    "Single short user session; total duration not established by available log interval",
+    "A screenshot FPS reading does not establish sustained performance",
+    "0.1.1 maintenance changes tested without a new game session",
+    "Long battles, all nations, save-load compatibility and other hardware remain unverified"
+  ],
+  "raw_logs_published": false,
+  "agent_started_game": false
+}

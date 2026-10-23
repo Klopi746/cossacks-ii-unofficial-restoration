@@ -17,7 +17,7 @@ The output adds a `.bfix` read/execute PE section, preserves the existing sectio
 
 `EnginePatch.Apply` verifies the original file hash before reading the recipe, validates all copy ranges, constructs the output in memory, and verifies its full SHA-256 before the installer can replace anything. It refuses an already patched EXE as an input. The installer separately preserves the original and a transaction manifest before replacement.
 
-The recipe reconstructs exactly `EC5B4E1EB1410E66223AD86C5F69B97B2646552A5B2AEDE2B4072111D85C9605`, the same output used for the earlier short manual scenario. The new setup and C# launcher still need manual game acceptance. A successful x86 emulation does not prove every nation, every formation definition, game service, save format or long-running battle.
+The recipe reconstructs exactly `EC5B4E1EB1410E66223AD86C5F69B97B2646552A5B2AEDE2B4072111D85C9605`, the same output used in the successful short diagnostic session through the 0.1.0 C# launcher on 23 October. Version 0.1.1 does not change this recipe or the resulting game EXE. Neither that short session nor x86 emulation proves every nation, every formation definition, game service, save format or long-running battle.
 
 ## Evidence scope
 
