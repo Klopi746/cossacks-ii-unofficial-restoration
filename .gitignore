@@ -1,0 +1,10 @@
+vendor/
+artifacts/
+private-evidence/
+*.user
+*.tmp
+*.dmp
+*.torrent
+engine.exe
+engine-capacity128.exe
+.vs/

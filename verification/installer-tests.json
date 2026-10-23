@@ -1,0 +1,380 @@
+{
+  "result": "PASS",
+  "checks": 93,
+  "fixture": "Original supported engine / settings with synthetic user data; separate space-and-Cyrillic paths",
+  "gameLaunch": "Forbidden; silent play requests rejected",
+  "tests": [
+    {
+      "name": "CLI exit 1",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 1",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 1",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 2",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 2",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 2",
+      "result": "PASS"
+    },
+    {
+      "name": "Patched output matches previously validated engine",
+      "result": "PASS"
+    },
+    {
+      "name": "1440p settings applied",
+      "result": "PASS"
+    },
+    {
+      "name": "Existing desktop shortcut untouched",
+      "result": "PASS"
+    },
+    {
+      "name": "Collision creates separate shortcut",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 3",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 3",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 3",
+      "result": "PASS"
+    },
+    {
+      "name": "Repeated install is byte-idempotent",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 4",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 4",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 4",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 5",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 5",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 5",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 6",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 6",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 6",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 7",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 7",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 7",
+      "result": "PASS"
+    },
+    {
+      "name": "Dry-run modes leave installed files and log attributes unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "MenuFill / borderless flags preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "SETRESOLUTION remains disabled",
+      "result": "PASS"
+    },
+    {
+      "name": "Save preserved through install",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 8",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 8",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 8",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 9",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 9",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 9",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original settings.cfg",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original engine.exe",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original dxvk.conf",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original X3D8.DLL",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original Save\\user-save.sav",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original settings.xml",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original log.txt",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original Players\\user-profile.dat",
+      "result": "PASS"
+    },
+    {
+      "name": "Restored original d3d8.dll",
+      "result": "PASS"
+    },
+    {
+      "name": "Later configuration preserved in conflicts",
+      "result": "PASS"
+    },
+    {
+      "name": "Own shortcut removed",
+      "result": "PASS"
+    },
+    {
+      "name": "Preexisting shortcut survives uninstall",
+      "result": "PASS"
+    },
+    {
+      "name": "New user saves survive uninstall",
+      "result": "PASS"
+    },
+    {
+      "name": "Unowned recovery content preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 10",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 10",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 10",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 11",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 11",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 11",
+      "result": "PASS"
+    },
+    {
+      "name": "Reinstall after removal archives previous history",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 12",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 12",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 12",
+      "result": "PASS"
+    },
+    {
+      "name": "Corrupted backup stops uninstall before mutations",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 13",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 13",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 13",
+      "result": "PASS"
+    },
+    {
+      "name": "Edited owned shortcut preserved",
+      "result": "PASS"
+    },
+    {
+      "name": "Later engine modification preserved in conflicts",
+      "result": "PASS"
+    },
+    {
+      "name": "Original engine restored after conflicting edit",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 14",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 14",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 14",
+      "result": "PASS"
+    },
+    {
+      "name": "Unsupported EXE rejected without mutation",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 15",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 15",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 15",
+      "result": "PASS"
+    },
+    {
+      "name": "Read-only output rejected without mutation",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 16",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 16",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 16",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback settings.cfg",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback engine.exe",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback dxvk.conf",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback X3D8.DLL",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback Save\\user-save.sav",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback settings.xml",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback log.txt",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback Players\\user-profile.dat",
+      "result": "PASS"
+    },
+    {
+      "name": "Automatic rollback d3d8.dll",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI exit 17",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI result 17",
+      "result": "PASS"
+    },
+    {
+      "name": "No game launch 17",
+      "result": "PASS"
+    },
+    {
+      "name": "Recovery is repeatable after failed transaction",
+      "result": "PASS"
+    },
+    {
+      "name": "Original input tree unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "No engine / DxWnd processes after tests",
+      "result": "PASS"
+    }
+  ]
+}

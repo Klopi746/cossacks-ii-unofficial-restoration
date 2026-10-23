@@ -1,0 +1,85 @@
+{
+  "original_SHA256": "DB52B8A6926C63EF2B7BBF921C01B8F95A4ECD9F2B63BDA18F0EDD18E45F7517",
+  "candidate_SHA256": "EC5B4E1EB1410E66223AD86C5F69B97B2646552A5B2AEDE2B4072111D85C9605",
+  "AI_heap_frame_bytes": 563412,
+  "AI_clone_entry": "0x8212000",
+  "AI_clone_bytes": 1906,
+  "UI_sentinel_guard": "0x8212780",
+  "new_relocations": [
+    {
+      "old_VA": "0x114a1de",
+      "new_RVA": "0x7e12020",
+      "value": "0x2185100"
+    },
+    {
+      "old_VA": "0x114a205",
+      "new_RVA": "0x7e12047",
+      "value": "0x523d5c1"
+    },
+    {
+      "old_VA": "0x114a255",
+      "new_RVA": "0x7e1209a",
+      "value": "0x30f4862"
+    },
+    {
+      "old_VA": "0x114a279",
+      "new_RVA": "0x7e120be",
+      "value": "0x30d6105"
+    },
+    {
+      "old_VA": "0x114a2ed",
+      "new_RVA": "0x7e12132",
+      "value": "0x4b99710"
+    },
+    {
+      "old_VA": "0x114a30b",
+      "new_RVA": "0x7e12150",
+      "value": "0x337f7b0"
+    },
+    {
+      "old_VA": "0x114a467",
+      "new_RVA": "0x7e122b7",
+      "value": "0x337f7b0"
+    },
+    {
+      "old_VA": "0x114a48a",
+      "new_RVA": "0x7e122da",
+      "value": "0x30d60f0"
+    },
+    {
+      "old_VA": "0x114a4d1",
+      "new_RVA": "0x7e12321",
+      "value": "0x59ec679"
+    },
+    {
+      "old_VA": "0x114a564",
+      "new_RVA": "0x7e123b4",
+      "value": "0x30d6105"
+    },
+    {
+      "old_VA": "0x114a70d",
+      "new_RVA": "0x7e1255d",
+      "value": "0xccf775"
+    },
+    {
+      "old_VA": "0x114a800",
+      "new_RVA": "0x7e12650",
+      "value": "0x527d278"
+    },
+    {
+      "old_VA": "0x114a82e",
+      "new_RVA": "0x7e1267e",
+      "value": "0x527d278"
+    },
+    {
+      "old_VA": "0x114a878",
+      "new_RVA": "0x7e126c8",
+      "value": "0x527d278"
+    },
+    {
+      "old_VA": "0x114a8cb",
+      "new_RVA": "0x7e1271b",
+      "value": "0x527e278"
+    }
+  ]
+}

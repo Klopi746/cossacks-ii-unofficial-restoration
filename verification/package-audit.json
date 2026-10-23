@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Selected public repository and embedded package; no game process / native DxWnd invocation",
+  "unmodified_dxwnd_binaries": 4,
+  "source_entries": 893,
+  "source_inventory_verified": true,
+  "compiled_objects_in_source_zip": false,
+  "active_resource_paths_checked": 58,
+  "active_resource_paths_missing": 0,
+  "local_quoted_includes_resolve": true,
+  "remaining_includes": "Microsoft system development headers",
+  "native_dxwnd_rebuild": "NOT PERFORMED; official binary hashes retained",
+  "game_data_in_public_tree": false,
+  "game_exe_in_public_tree": false,
+  "private_diagnostic_material_in_public_tree": false,
+  "install_network_required": false,
+  "corresponding_source_sha256": "7405D45BE88010A5C38310352C2CA8F947CDBEF2D4205563A0D119701CD811E1",
+  "wizard_events": "PASS: Next, folder check, consent, Install, completion; off-screen own-form harness; launch forbidden",
+  "build_repeat": "PASS: Windows PowerShell 5.1 and PowerShell 7 hashes agree",
+  "ci": "See .github/workflows/build.yml and GitHub Actions for independent runner result"
+}

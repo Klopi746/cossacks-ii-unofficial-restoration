@@ -1,0 +1,50 @@
+name: Build preview installer
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with pinned compiler and DXVK
+        shell: powershell
+        run: ./build/Build.ps1
+      - name: Rebuild and compare deterministic output
+        shell: powershell
+        run: |
+          $path='artifacts/CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe'
+          $first=(Get-FileHash $path).Hash
+          ./build/Build.ps1
+          if ((Get-FileHash $path).Hash -ne $first) { throw 'Non-deterministic installer build' }
+      - name: Unsupported-file rejection without game data
+        shell: powershell
+        run: |
+          New-Item -ItemType Directory -Path artifacts/unsupported-fixture | Out-Null
+          Set-Content artifacts/unsupported-fixture/engine.exe 'Synthetic unsupported file'
+          $p=Start-Process -FilePath artifacts/CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe -ArgumentList '--silent --install --no-shortcut --game artifacts/unsupported-fixture --report artifacts/rejection.json' -PassThru -Wait -WindowStyle Hidden
+          if($p.ExitCode -eq 0) { throw 'Unsupported fixture accepted' }
+          $result=Get-Content artifacts/rejection.json -Raw | ConvertFrom-Json
+          if($result.success -or $result.gameLaunched -or (Test-Path artifacts/unsupported-fixture/.c2-restoration)) { throw 'Unsafe rejection behavior' }
+      - name: Verify embedded dependency without starting it
+        shell: powershell
+        run: |
+          $setup=(Resolve-Path artifacts/CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe).Path
+          $compiler=(Resolve-Path vendor/compiler-4.8.0/tasks/net472/csc.exe).Path
+          & $compiler /nologo /target:exe /out:artifacts/DependencySmoke.exe "/r:$setup" tests/DependencySmoke.cs
+          if($LASTEXITCODE -ne 0) { throw 'Dependency probe compilation failed' }
+          & artifacts/DependencySmoke.exe | Tee-Object artifacts/dependency-smoke.txt
+          if($LASTEXITCODE -ne 0) { throw 'Embedded dependency verification failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CossacksII-Unofficial-Restoration-preview
+          path: |
+            artifacts/*setup.exe
+            artifacts/SHA256SUMS.txt
+            artifacts/build-manifest.json
+            artifacts/rejection.json
+            artifacts/dependency-smoke.txt
+            artifacts/DxWnd-2.06.16-corresponding-source.zip

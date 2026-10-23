@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "original_SHA256": "DB52B8A6926C63EF2B7BBF921C01B8F95A4ECD9F2B63BDA18F0EDD18E45F7517",
+  "candidate_SHA256": "EC5B4E1EB1410E66223AD86C5F69B97B2646552A5B2AEDE2B4072111D85C9605",
+  "original_prefix_bytes": 23515840,
+  "changed_prefix_bytes": 46,
+  "allowed_regions": [
+    {
+      "offset": "0x15e",
+      "length": 2,
+      "purpose": "NumberOfSections"
+    },
+    {
+      "offset": "0x174",
+      "length": 4,
+      "purpose": "SizeOfCode"
+    },
+    {
+      "offset": "0x1a8",
+      "length": 4,
+      "purpose": "SizeOfImage"
+    },
+    {
+      "offset": "0x1b0",
+      "length": 4,
+      "purpose": "CheckSum"
+    },
+    {
+      "offset": "0x1f0",
+      "length": 8,
+      "purpose": "certificate directory"
+    },
+    {
+      "offset": "0x1f8",
+      "length": 8,
+      "purpose": "relocation directory"
+    },
+    {
+      "offset": "0x390",
+      "length": 40,
+      "purpose": "new section header"
+    },
+    {
+      "offset": "0x48f13f",
+      "length": 4,
+      "purpose": "UI capacity"
+    },
+    {
+      "offset": "0x4911d0",
+      "length": 8,
+      "purpose": "AI entry redirect"
+    },
+    {
+      "offset": "0x48fabc",
+      "length": 6,
+      "purpose": "UI sentinel redirect"
+    }
+  ],
+  "original_sections_identical": true,
+  "entry_point_imports_resources_stack_unchanged": true,
+  "checksum_valid": true,
+  "new_section_permissions": "read/execute; no write",
+  "original_relocations_retained": 500109,
+  "new_relocations": 15,
+  "clone_rebase_delta_test": "0x1000000",
+  "relative_branches_and_absolute_fixups_checked": true,
+  "certificate_directory_cleared": true,
+  "game_process_created": false
+}

@@ -1,0 +1,18 @@
+{
+  "version": "2.06.16",
+  "official_build_url": "https://sourceforge.net/projects/dxwnd/files/Latest%20build/v2_06_16_build.rar/download",
+  "official_build_sha256": "BAD187D929B5EA17D2461BAC8579246A28410D2E712AD1C32676B99155EA3DA7",
+  "official_source_url": "https://sourceforge.net/projects/dxwnd/files/Sources/v2_06_16_src.rar/download",
+  "official_source_sha256": "8F4BC9A324660B240E5F6747B4A84532D7B51FBDD60F52AE1F07D6FAA247D1FD",
+  "corresponding_source_sha256": "7405D45BE88010A5C38310352C2CA8F947CDBEF2D4205563A0D119701CD811E1",
+  "source_entries": 893,
+  "native_rebuild": "not performed; unchanged upstream binaries",
+  "source_packaging": "matching upstream source subset; original source bytes; compiled objects / optional helper programs excluded",
+  "binaries": {
+    "Disasm.dll": "F413A207787DA88281500AAEAE07FB98D7D438ECB4D67F8FCDF0AFF2F988717F",
+    "dxwnd.dll": "73B3F9A9E8EF0C3BEB220753320C7F3E28D6E4BE8A8459D18DA7F2E3A9D09ABE",
+    "dxwnd.exe": "D8D2F25BE8EC746B6DF31754A2E6C91B562B6C65AB1475D673FA95BF1B34CB82",
+    "MinHook.x86.dll": "32667DBD34787133D0CDA2CBB1AEBC543DAEF4ABF435F346527ED6AA5D47B313"
+  },
+  "detours_commit": "ea6c4ae7f3f1b1772b8a7cda4199230b932f5a50"
+}
