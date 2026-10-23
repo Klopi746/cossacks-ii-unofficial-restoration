@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
@@ -23,18 +24,37 @@ namespace CossacksRestoration {
     }
     public static class Store {
         public const string Folder=".c2-restoration";
-        public static string Full(string path) { return Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar); }
+        [StructLayout(LayoutKind.Sequential)] struct FileInformation {
+            public uint attributes,creationLow,creationHigh,accessLow,accessHigh,writeLow,writeHigh;
+            public uint volume,sizeHigh,sizeLow,links,indexHigh,indexLow;
+        }
+        [DllImport("kernel32.dll",SetLastError=true)]
+        static extern bool GetFileInformationByHandle(Microsoft.Win32.SafeHandles.SafeFileHandle file,out FileInformation information);
+        public static string Full(string path) {
+            string full=Path.GetFullPath(path);
+            return full.Length==Path.GetPathRoot(full).Length?full:full.TrimEnd(Path.DirectorySeparatorChar);
+        }
         public static void SafePath(string path) {
             string current=Path.GetFullPath(path);
             while(!string.IsNullOrEmpty(current)) {
-                if((File.Exists(current)||Directory.Exists(current)) && (File.GetAttributes(current)&FileAttributes.ReparsePoint)!=0)
-                    throw new IOException("Links / junctions are not supported: "+current);
+                FileAttributes attributes=0; bool exists=true;
+                try { attributes=File.GetAttributes(current); }
+                catch(FileNotFoundException) { exists=false; }
+                catch(DirectoryNotFoundException) { exists=false; }
+                if(exists) {
+                    if((attributes&FileAttributes.ReparsePoint)!=0) throw new IOException("Links / junctions are not supported: "+current);
+                    if((attributes&FileAttributes.Directory)==0) using(FileStream file=new FileStream(current,FileMode.Open,FileAccess.Read,FileShare.ReadWrite|FileShare.Delete)) {
+                        FileInformation information;
+                        if(!GetFileInformationByHandle(file.SafeFileHandle,out information)) throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+                        if(information.links>1) throw new IOException("Hard-linked files are not supported: "+current);
+                    }
+                }
                 DirectoryInfo parent=Directory.GetParent(current); current=parent==null?null:parent.FullName;
             }
         }
         public static string Under(string root,string relative) {
             string full=Path.GetFullPath(Path.Combine(root,relative));
-            if(!full.StartsWith(Full(root)+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
+            if(!full.StartsWith(Full(root).TrimEnd(Path.DirectorySeparatorChar)+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
                 throw new IOException("Path is outside the installation.");
             SafePath(full); return full;
         }
@@ -50,14 +70,26 @@ namespace CossacksRestoration {
         public static void Save(string path,object value) {
             WriteBytes(path,new UTF8Encoding(false).GetBytes(new JavaScriptSerializer().Serialize(value)));
         }
+        public static void SaveReport(string path,object value) {
+            SafePath(path); Directory.CreateDirectory(Path.GetDirectoryName(path));
+            byte[] bytes=new UTF8Encoding(false).GetBytes(new JavaScriptSerializer().Serialize(value));
+            // Reports never replace user files, including when another writer wins a race.
+            using(FileStream file=new FileStream(path,FileMode.CreateNew,FileAccess.Write,FileShare.None)) file.Write(bytes,0,bytes.Length);
+        }
         public static T Read<T>(string path) { return new JavaScriptSerializer().Deserialize<T>(File.ReadAllText(path)); }
         public static string StatePath(string game) { return Under(game,Folder+"\\state.json"); }
         public static InstallState State(string game) {
             string p=StatePath(game); if(!File.Exists(p)) throw new IOException("Restoration is not installed in this folder.");
             InstallState state=Read<InstallState>(p);
-            if(state.format!=1 || !string.Equals(Full(state.game),Full(game),StringComparison.OrdinalIgnoreCase))
+            if(state==null || state.format!=1 || string.IsNullOrEmpty(state.game) || !string.Equals(Full(state.game),Full(game),StringComparison.OrdinalIgnoreCase))
                 throw new IOException("The installation manifest belongs to another folder.");
+            Installer.ValidateState(state);
             return state;
+        }
+        public static string DesktopDirectory() {
+            string test=Environment.GetEnvironmentVariable("C2_RESTORATION_TEST_DESKTOP");
+            return Environment.GetEnvironmentVariable("C2_RESTORATION_FORBID_GAME_LAUNCH")=="1" && !string.IsNullOrEmpty(test)
+                ?Full(test):Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
         public static void EnsureClosed(string game) {
             string target=Path.Combine(game,"engine.exe");
@@ -65,6 +97,7 @@ namespace CossacksRestoration {
                 using(process) {
                     try { if(string.Equals(process.MainModule.FileName,target,StringComparison.OrdinalIgnoreCase)) throw new IOException("Close this game before continuing."); }
                     catch(System.ComponentModel.Win32Exception) { throw new IOException("Cannot inspect a running engine.exe. Close it before continuing."); }
+                    catch(InvalidOperationException) { /* process exited during inspection */ }
                 }
             }
         }
@@ -89,6 +122,26 @@ namespace CossacksRestoration {
         }
     }
     public static class Installer {
+        const string ShortcutStem="Cossacks II — Unofficial Restoration";
+        public static void ValidateState(InstallState state) {
+            HashSet<string> names=new HashSet<string>(new[]{"engine.exe","X3D8.DLL","d3d8.dll","d3d9.dll","engine.exe.local","Restoration-Diagnostics.cmd","Restoration-Uninstall.cmd","dxvk.conf","settings.xml","settings.cfg",Store.Folder+"\\Restoration.exe",Store.Folder+"\\dxwnd\\launch.ini"},StringComparer.OrdinalIgnoreCase);
+            foreach(string name in Store.Payload().Keys) if(!name.StartsWith("dxvk\\",StringComparison.OrdinalIgnoreCase)) names.Add(Store.Folder+"\\"+name);
+            if(state.files==null || state.conflicts==null || state.files.Count!=names.Count || !new[]{"preparing","installing","installed","interrupted","restoring","removed"}.Contains(state.status))
+                throw new InvalidDataException("Invalid installation manifest. No files changed.");
+            foreach(OwnedFile file in state.files) {
+                if(file==null || file.name==null || !names.Remove(file.name) ||
+                    !string.Equals(file.backup,Store.Folder+"\\backups\\"+file.name,StringComparison.OrdinalIgnoreCase) ||
+                    file.after==null || !Regex.IsMatch(file.after,"\\A[0-9A-F]{64}\\z") ||
+                    (file.before!=null && !Regex.IsMatch(file.before,"\\A[0-9A-F]{64}\\z")))
+                    throw new InvalidDataException("Invalid file ownership in installation manifest. No files changed.");
+            }
+            Dimensions(state.width,state.height);
+            if(state.shortcut!=null) {
+                if(!Path.IsPathRooted(state.shortcut) || state.shortcutHash==null || !Regex.IsMatch(state.shortcutHash,"\\A[0-9A-F]{64}\\z"))
+                    throw new InvalidDataException("Invalid shortcut record. No files changed.");
+                Store.Full(state.shortcut);
+            } else if(state.shortcutHash!=null) throw new InvalidDataException("Invalid shortcut record. No files changed.");
+        }
         public static string Validate(string game) {
             game=Store.Full(game); Store.SafePath(game); Store.EnsureClosed(game);
             if(!Directory.Exists(game)) throw new IOException("Game folder does not exist.");
@@ -158,9 +211,11 @@ namespace CossacksRestoration {
             InstallState state=new InstallState {game=game,status="preparing",created=DateTime.UtcNow.ToString("o"),width=width,height=height};
             foreach(KeyValuePair<string,byte[]> item in plan) {
                 string path=Store.Under(game,item.Key);
+                // Old maintenance files move into history, so they are not originals of the new installation.
+                bool archived=previousHistory!=null && item.Key.StartsWith(Store.Folder+"\\",StringComparison.OrdinalIgnoreCase);
                 if(Directory.Exists(path)) throw new IOException("A directory blocks an output file: "+item.Key);
-                if(File.Exists(path) && (File.GetAttributes(path)&FileAttributes.ReadOnly)!=0) throw new IOException("Read-only output file: "+item.Key);
-                state.files.Add(new OwnedFile {name=item.Key,before=Store.HashOrNull(path),after=Hashing.Bytes(item.Value),attributes=File.Exists(path)?(int)File.GetAttributes(path):0,backup=Store.Folder+"\\backups\\"+item.Key});
+                if(!archived && File.Exists(path) && (File.GetAttributes(path)&FileAttributes.ReadOnly)!=0) throw new IOException("Read-only output file: "+item.Key);
+                state.files.Add(new OwnedFile {name=item.Key,before=archived?null:Store.HashOrNull(path),after=Hashing.Bytes(item.Value),attributes=!archived&&File.Exists(path)?(int)File.GetAttributes(path):0,backup=Store.Folder+"\\backups\\"+item.Key});
             }
             if(previousHistory!=null) Directory.Move(Store.Under(game,Store.Folder),previousHistory);
             Directory.CreateDirectory(Store.Under(game,Store.Folder)); Store.Save(statePath,state);
@@ -188,11 +243,9 @@ namespace CossacksRestoration {
             }
         }
         static void CreateShortcut(string game,InstallState state) {
-            string desktop=Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            string testDesktop=Environment.GetEnvironmentVariable("C2_RESTORATION_TEST_DESKTOP");
-            if(Environment.GetEnvironmentVariable("C2_RESTORATION_FORBID_GAME_LAUNCH")=="1" && !string.IsNullOrEmpty(testDesktop)) desktop=Store.Full(testDesktop);
+            string desktop=Store.DesktopDirectory();
             Store.SafePath(desktop); Directory.CreateDirectory(desktop);
-            string stem="Cossacks II — Unofficial Restoration";
+            string stem=ShortcutStem;
             string path=Path.Combine(desktop,stem+".lnk"); int suffix=2;
             while(File.Exists(path)||Directory.Exists(path)) { path=Path.Combine(desktop,stem+" ("+suffix+").lnk"); suffix++; }
             Store.SafePath(path);
@@ -203,9 +256,24 @@ namespace CossacksRestoration {
             link.Description="Unofficial restoration; original GOG Battle for Europe required"; link.Save();
             state.shortcut=path; state.shortcutHash=Hashing.FileHash(path);
         }
+        static bool OwnShortcut(string game,InstallState state) {
+            if(state.shortcut==null ||
+                !string.Equals(Path.GetDirectoryName(Store.Full(state.shortcut)),Store.Full(Store.DesktopDirectory()),StringComparison.OrdinalIgnoreCase) ||
+                !Regex.IsMatch(Path.GetFileName(state.shortcut),"\\A"+Regex.Escape(ShortcutStem)+"(?: \\((?:[2-9]|[1-9][0-9]+)\\))?\\.lnk\\z") ||
+                Store.HashOrNull(state.shortcut)!=state.shortcutHash) return false;
+            Store.SafePath(state.shortcut);
+            dynamic shell=null,link=null;
+            try {
+                shell=Activator.CreateInstance(Type.GetTypeFromProgID("WScript.Shell")); link=shell.CreateShortcut(state.shortcut);
+                return string.Equals((string)link.TargetPath,Store.Under(game,Store.Folder+"\\Restoration.exe"),StringComparison.OrdinalIgnoreCase) &&
+                    (string)link.Arguments=="--play" && string.Equals((string)link.WorkingDirectory,game,StringComparison.OrdinalIgnoreCase);
+            } catch(COMException) { return false; }
+            finally { if(link!=null) Marshal.FinalReleaseComObject(link); if(shell!=null) Marshal.FinalReleaseComObject(shell); }
+        }
         public static string Uninstall(string game) {
             game=Store.Full(game); Store.SafePath(game); Store.EnsureClosed(game);
             InstallState state=Store.State(game);
+            Launcher.RecoverQuiet(game);
             if(state.status=="removed") return "Already removed. Backups and journals are retained.";
             return Restore(game,state,true);
         }
@@ -232,7 +300,7 @@ namespace CossacksRestoration {
                 } else if(File.Exists(path)) File.Delete(path);
                 f.written=false; Store.Save(Store.StatePath(game),state);
             }
-            if(removeShortcut && state.shortcut!=null && Store.HashOrNull(state.shortcut)==state.shortcutHash) { Store.SafePath(state.shortcut); File.Delete(state.shortcut); }
+            if(removeShortcut && OwnShortcut(game,state)) File.Delete(state.shortcut);
             state.status="removed"; Store.Save(Store.StatePath(game),state);
             return "Original files restored. User data preserved. Backups / journals retained in .c2-restoration.\nPreserved changed files: "+state.conflicts.Count;
         }

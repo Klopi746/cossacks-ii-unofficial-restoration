@@ -1,8 +1,11 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using CossacksRestoration;
 
 public static class QuietRecoverySmoke {
+    [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)]
+    static extern bool CreateHardLink(string name,string existing,IntPtr reserved);
     static int checks;
     static void Check(bool pass,string message) { if(!pass) throw new Exception(message); checks++; }
     static string Case(string root,string name,bool existed,int originalAttributes,string text) {
@@ -36,6 +39,19 @@ public static class QuietRecoverySmoke {
             Check((File.GetAttributes(Path.Combine(game,"log.txt"))&FileAttributes.Hidden)!=0,"Unrelated attribute lost.");
             game=Case(root,"missing-log",true,(int)FileAttributes.Archive,null); Launcher.RecoverQuiet(game);
             Check(!File.Exists(Path.Combine(game,"log.txt")) && !Store.Read<QuietState>(Path.Combine(game,Store.Folder,"quiet-log.json")).active,"Missing-log recovery failed.");
+            game=Case(root,"hardlinked-log",true,(int)FileAttributes.ReadOnly,null);
+            string external=Path.Combine(root,"external-user-file.txt"); File.WriteAllText(external,"External file must keep its attributes and bytes");
+            if(!CreateHardLink(Path.Combine(game,"log.txt"),external,IntPtr.Zero)) throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+            FileAttributes externalAttributes=File.GetAttributes(external); hash=Hashing.FileHash(external);
+            bool rejected=false; try { Launcher.RecoverQuiet(game); } catch(IOException) { rejected=true; }
+            Check(rejected && File.GetAttributes(external)==externalAttributes && Hashing.FileHash(external)==hash,"Hard-linked log affected external user data.");
+            Check(Store.Read<QuietState>(Path.Combine(game,Store.Folder,"quiet-log.json")).active,"Rejected hard-linked recovery discarded its journal.");
+            string report=Path.Combine(root,"existing-report.json"); File.WriteAllText(report,"Keep existing report");
+            hash=Hashing.FileHash(report); rejected=false; try { Store.SaveReport(report,new {success=false}); } catch(IOException) { rejected=true; }
+            Check(rejected && Hashing.FileHash(report)==hash,"Report writer overwrote a concurrently existing destination.");
+            rejected=false; try { Store.Under(root,"..\\escape.txt"); } catch(IOException) { rejected=true; }
+            Check(rejected,"Relative path escaped installation root.");
+            Check(Store.Full(Path.GetPathRoot(root))==Path.GetPathRoot(root),"Drive root normalization became drive-relative.");
             Console.WriteLine("PASS: "+checks+" quiet-log recovery assertions; existing bytes / original read-only bit / unrelated attributes / evidence preserved; no game process.");
             return 0;
         } catch(Exception error) { Console.Error.WriteLine(error); return 1; }

@@ -1,10 +1,10 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([Parameter(Mandatory=$true)][string]$OriginalEngine,[Parameter(Mandatory=$true)][string]$OutputDirectory)
 $ErrorActionPreference='Stop'
 $projectRoot=Split-Path $PSScriptRoot -Parent
 if(Test-Path -LiteralPath $OutputDirectory) { throw 'Use a new output directory.' }
 New-Item -ItemType Directory -Path $OutputDirectory | Out-Null
-$setup=Join-Path $projectRoot 'artifacts\CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe'
+$setup=Join-Path $projectRoot 'artifacts\CossacksII-Unofficial-Restoration-0.1.1-preview-setup.exe'
 $source=@'
 using System;
 using System.IO;

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace CossacksRestoration {
-    public sealed class QuietState { public bool existed; public int attributes; public bool active; public string hash; }
+    public sealed class QuietState { public bool existed; public int attributes; public bool active; }
     public static class Launcher {
         [DllImport("kernel32.dll",CharSet=CharSet.Unicode)] static extern uint GetShortPathName(string longPath,StringBuilder shortPath,uint length);
         public static string LegacyPath(string path) {
@@ -63,7 +63,7 @@ namespace CossacksRestoration {
             QuietState quiet=null;
             try {
                 if(!diagnostic) {
-                    quiet=new QuietState {existed=File.Exists(log),attributes=File.Exists(log)?(int)File.GetAttributes(log):0,active=true,hash=Store.HashOrNull(log)};
+                    quiet=new QuietState {existed=File.Exists(log),attributes=File.Exists(log)?(int)File.GetAttributes(log):0,active=true};
                     Store.Save(quietPath,quiet);
                     if(!quiet.existed) File.WriteAllBytes(log,new byte[0]);
                     File.Copy(log,Path.Combine(session,"game-log-before.txt"));
@@ -78,7 +78,9 @@ namespace CossacksRestoration {
                     while(true) {
                         bool running=false;
                         foreach(Process p in Process.GetProcessesByName("engine")) using(p) {
-                            try { if(string.Equals(p.MainModule.FileName,Path.Combine(game,"engine.exe"),StringComparison.OrdinalIgnoreCase)) running=true; } catch(System.ComponentModel.Win32Exception) { }
+                            try { if(string.Equals(p.MainModule.FileName,Path.Combine(game,"engine.exe"),StringComparison.OrdinalIgnoreCase)) running=true; }
+                            catch(System.ComponentModel.Win32Exception) { }
+                            catch(InvalidOperationException) { /* process exited during inspection */ }
                         }
                         if(running) observed=true;
                         if(observed && !running) break;

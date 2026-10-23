@@ -8,7 +8,7 @@ using Microsoft.Win32;
 
 namespace CossacksRestoration {
     public static class Program {
-        public const string Version="0.1.0-preview";
+        public const string Version="0.1.1-preview";
         [STAThread] public static int Main(string[] args) {
             string report=null;
             try {
@@ -21,11 +21,19 @@ namespace CossacksRestoration {
                     else if(values.Contains(args[i])&&i+1<args.Length) { string key=args[i]; options.Add(key,args[++i]); }
                     else throw new ArgumentException("Unknown / incomplete option: "+args[i]);
                 }
-                if(options.ContainsKey("--report")) report=Path.GetFullPath(options["--report"]);
                 string home=Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
                 string game=options.ContainsKey("--game")?options["--game"]:Path.GetFileName(home)==Store.Folder?Directory.GetParent(home).FullName:null;
+                if(options.ContainsKey("--report")) {
+                    string candidate=Path.GetFullPath(options["--report"]); Store.SafePath(candidate);
+                    if(File.Exists(candidate)||Directory.Exists(candidate)) throw new IOException("Report destination already exists. Choose a new file; existing files are never overwritten.");
+                    if(game!=null && candidate.StartsWith(Store.Full(game).TrimEnd(Path.DirectorySeparatorChar)+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
+                        throw new IOException("Save the report outside the game folder and its recovery history.");
+                    report=candidate;
+                }
                 int actions=new[]{"--install","--uninstall","--validate","--play","--diagnostic"}.Count(options.ContainsKey);
                 if(actions>1) throw new ArgumentException("Select exactly one action.");
+                if(options.ContainsKey("--dry-run") && !options.ContainsKey("--play") && !options.ContainsKey("--diagnostic"))
+                    throw new ArgumentException("--dry-run is supported only with --play or --diagnostic. Use --validate to check installation compatibility without changes.");
                 if(options.ContainsKey("--silent") && !options.ContainsKey("--dry-run") && (options.ContainsKey("--play")||options.ContainsKey("--diagnostic")))
                     throw new ArgumentException("Silent mode never starts the game. Use an explicit interactive play command.");
                 if(actions==0) {
@@ -38,7 +46,7 @@ namespace CossacksRestoration {
                 }
                 if(game==null) throw new ArgumentException("Specify --game <folder>.");
                 string result;
-                // A single per-user owner serializes installation, maintenance and play.
+                // Serialize cooperating restoration operations in this Windows session.
                 using(Mutex mutex=new Mutex(false,"Local\\CossacksIIUnofficialRestoration")) {
                     bool held=false;
                     try { try { held=mutex.WaitOne(0); } catch(AbandonedMutexException) { held=true; }
@@ -49,16 +57,16 @@ namespace CossacksRestoration {
                             string[] dimensions=resolution.Split('x');
                             if(dimensions.Length!=2) throw new ArgumentException("Expected --resolution WIDTHxHEIGHT.");
                             result=Installer.Install(game,int.Parse(dimensions[0]),int.Parse(dimensions[1]),!options.ContainsKey("--no-shortcut"));
-                        } else if(options.ContainsKey("--uninstall")) { Launcher.RecoverQuiet(Store.Full(game)); result=Installer.Uninstall(game); }
+                        } else if(options.ContainsKey("--uninstall")) result=Installer.Uninstall(game);
                         else if(options.ContainsKey("--validate")) result=Installer.Validate(game);
                         else result=Launcher.Play(game,options.ContainsKey("--diagnostic"),options.ContainsKey("--dry-run"));
                     } finally { if(held) mutex.ReleaseMutex(); }
                 }
-                if(report!=null) Store.Save(report,new {success=true,message=result,gameLaunched=options.ContainsKey("--dry-run")?false:options.ContainsKey("--play")||options.ContainsKey("--diagnostic")});
+                if(report!=null) Store.SaveReport(report,new {success=true,message=result,gameLaunched=options.ContainsKey("--dry-run")?false:options.ContainsKey("--play")||options.ContainsKey("--diagnostic")});
                 if(!options.ContainsKey("--silent") && !options.ContainsKey("--play")) MessageBox.Show(result,"Cossacks II — Unofficial Restoration",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 return 0;
             } catch(Exception error) {
-                if(report!=null) { try { Store.Save(report,new {success=false,message=error.Message,gameLaunched=false}); } catch { } }
+                if(report!=null) { try { Store.SaveReport(report,new {success=false,message=error.Message,gameLaunched=false}); } catch { } }
                 if(!args.Contains("--silent")) MessageBox.Show(error.Message,"Cossacks II — Unofficial Restoration",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return 1;
             }
@@ -161,7 +169,7 @@ namespace CossacksRestoration {
                 using(Mutex mutex=new Mutex(false,"Local\\CossacksIIUnofficialRestoration")) {
                     bool held=false; try { try { held=mutex.WaitOne(0); } catch(AbandonedMutexException) { held=true; }
                         if(!held) throw new IOException(T("Another restoration operation is running.","Другая операция уже выполняется."));
-                        Launcher.RecoverQuiet(Store.Full(folder.Text)); result=Installer.Uninstall(folder.Text);
+                        result=Installer.Uninstall(folder.Text);
                     } finally { if(held) mutex.ReleaseMutex(); }
                 }
                 MessageBox.Show(this,result,Text); Close();

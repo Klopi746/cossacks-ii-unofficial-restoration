@@ -54,7 +54,7 @@ if($LASTEXITCODE -ne 0) { throw 'ZIP helper compilation failed.' }
 $zipArguments=@($payload)+@($payloadFiles.Keys | Sort-Object | ForEach-Object { $_+'='+$payloadFiles[$_] })
 & $zipWriter $zipArguments
 if($LASTEXITCODE -ne 0) { throw 'Payload creation failed.' }
-$setup=Join-Path $output 'CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe'
+$setup=Join-Path $output 'CossacksII-Unofficial-Restoration-0.1.1-preview-setup.exe'
 $sources=@(Get-ChildItem -LiteralPath (Join-Path $projectRoot 'src') -Filter '*.cs' -File | Sort-Object Name | ForEach-Object FullName)
 $arguments=@('/nologo','/deterministic+','/optimize+','/debug-','/target:winexe','/platform:anycpu',('/pathmap:'+$projectRoot+'=/src'),('/out:'+$setup),('/win32manifest:'+(Join-Path $projectRoot 'src\app.manifest')),('/resource:'+$payload+',payload.zip'),('/resource:'+(Join-Path $projectRoot 'src\patch-plan.json')+',patch-plan.json'),'/r:System.dll','/r:System.Core.dll','/r:System.Drawing.dll','/r:System.Windows.Forms.dll','/r:System.Web.Extensions.dll','/r:System.IO.Compression.dll','/r:Microsoft.CSharp.dll')+$sources
 & $compiler $arguments
@@ -63,6 +63,6 @@ $hash=(Get-FileHash -LiteralPath $setup).Hash
 Copy-Item -LiteralPath $sourceBundle -Destination (Join-Path $output ([IO.Path]::GetFileName($sourceBundle))) -Force
 $checksumText=$hash.ToLowerInvariant()+'  '+[IO.Path]::GetFileName($setup)+"`n"+$provenance.corresponding_source_sha256.ToLowerInvariant()+'  '+[IO.Path]::GetFileName($sourceBundle)+"`n"
 [IO.File]::WriteAllText((Join-Path $output 'SHA256SUMS.txt'),$checksumText,(New-Object Text.UTF8Encoding($false)))
-[pscustomobject]@{Version='0.1.0-preview';SHA256=$hash;Bytes=(Get-Item -LiteralPath $setup).Length;Compiler='Microsoft.Net.Compilers.Toolset 4.8.0';Deterministic=$true;Bundled='Own code / recipe / DXVK x86 / DxWnd 2.06.16 / corresponding source / notices';InstallNetworkRequired=$false} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $output 'build-manifest.json') -Encoding UTF8
+[pscustomobject]@{Version='0.1.1-preview';SHA256=$hash;Bytes=(Get-Item -LiteralPath $setup).Length;Compiler='Microsoft.Net.Compilers.Toolset 4.8.0';Deterministic=$true;Bundled='Own code / recipe / DXVK x86 / DxWnd 2.06.16 / corresponding source / notices';InstallNetworkRequired=$false} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $output 'build-manifest.json') -Encoding UTF8
 Write-Output "Built $setup"
 Write-Output "SHA-256 $hash"
