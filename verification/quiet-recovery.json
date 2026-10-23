@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "assertions": 9,
+  "scope": "C# recovery against synthetic log files only",
+  "preserved": [
+    "Original log bytes",
+    "Original writable/read-only state",
+    "Unrelated attributes",
+    "Non-empty new evidence"
+  ],
+  "journal_idempotence": true,
+  "new_empty_log_removed": true,
+  "missing_log_handled": true,
+  "game_process_started": false
+}

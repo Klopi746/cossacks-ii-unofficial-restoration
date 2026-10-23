@@ -38,6 +38,15 @@ jobs:
           if($LASTEXITCODE -ne 0) { throw 'Dependency probe compilation failed' }
           & artifacts/DependencySmoke.exe | Tee-Object artifacts/dependency-smoke.txt
           if($LASTEXITCODE -ne 0) { throw 'Embedded dependency verification failed' }
+      - name: Recover quiet-log attributes without game data
+        shell: powershell
+        run: |
+          $setup=(Resolve-Path artifacts/CossacksII-Unofficial-Restoration-0.1.0-preview-setup.exe).Path
+          $compiler=(Resolve-Path vendor/compiler-4.8.0/tasks/net472/csc.exe).Path
+          & $compiler /nologo /target:exe /out:artifacts/QuietRecoverySmoke.exe "/r:$setup" tests/QuietRecoverySmoke.cs
+          if($LASTEXITCODE -ne 0) { throw 'Quiet-recovery probe compilation failed' }
+          & artifacts/QuietRecoverySmoke.exe artifacts/quiet-log-fixture | Tee-Object artifacts/quiet-recovery.txt
+          if($LASTEXITCODE -ne 0) { throw 'Quiet-log recovery failed' }
       - uses: actions/upload-artifact@v4
         with:
           name: CossacksII-Unofficial-Restoration-preview
@@ -48,3 +57,4 @@ jobs:
             artifacts/rejection.json
             artifacts/dependency-smoke.txt
             artifacts/DxWnd-2.06.16-corresponding-source.zip
+            artifacts/quiet-recovery.txt

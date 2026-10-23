@@ -36,6 +36,8 @@ Use paths suitable for your computer. Do not publish the work directory, generat
 
 `tests/WizardSmoke.cs` is an optional harness for the actual WinForms Next / consent / Install / completion events. Compile it against the setup assembly and Windows Forms, place a copy of that assembly next to the harness, and pass a fresh reduced test fixture as its argument. The harness itself forbids game launch and disables shortcut creation. `tests/DependencySmoke.cs` verifies the embedded DxWnd objects and corresponding-source availability without starting any native component.
 
+`tests/QuietRecoverySmoke.cs` uses only synthetic log files to verify the C# recovery implementation. Compile it against the setup assembly, keep a copy of that assembly beside the harness, and pass a new work-directory path. CI runs the same probe. It never starts the game.
+
 ## Optional static PE and isolated memory checks
 
 Developer-only Python dependencies: `pefile`, `capstone`, `unicorn`. Use a virtual environment; none is needed on players' computers. The scripts read both game files as bytes; they never load either as a Windows process. The x86 emulator replaces external game/OS services with synthetic fixtures and hooks.
